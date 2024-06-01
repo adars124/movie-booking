@@ -60,13 +60,13 @@ class BookingController {
             // Availibility check
             const checkQuery = "SELECT * FROM seats WHERE showtime_id = ($1) AND seat_number = ANY($2) AND is_booked = false";
             const checkResult = await client.query(checkQuery, [showtime_id, bookedSeats]);
-            console.log(checkResult);
+            // console.log("HERE IS THE OUTPUT: ", checkResult);
 
             // If all seats are available, proceed with booking
             if (checkResult.rowCount === bookedSeats.length) {
                 // Insert into the bookings table
-                const insertBookingQuery = 'INSERT INTO bookings (user_id, showtime_id, booked_seats, amount) VALUES ($1, $2, $3, $4) RETURNING booking_id';
-                const bookingResult = await client.query(insertBookingQuery, [req.user.user_id, showtime_id, bookedSeats, calculateBookingAmount(bookedSeats)]);
+                const insertBookingQuery = 'INSERT INTO bookings (user_id, showtime_id, movie_id, booked_seats, amount) VALUES ($1, $2, $3, $4, $5) RETURNING booking_id';
+                const bookingResult = await client.query(insertBookingQuery, [req.user.user_id, showtime_id, movie_id, bookedSeats, calculateBookingAmount(bookedSeats)]);
                 const bookingId = bookingResult.rows[0].booking_id;
                 let ticket;
 
