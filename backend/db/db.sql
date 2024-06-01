@@ -1,5 +1,5 @@
 CREATE DATABASE movie;
-
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TYPE roles AS ENUM ('admin', 'user');
 
 -- USERS
